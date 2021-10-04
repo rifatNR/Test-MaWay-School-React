@@ -5,11 +5,11 @@ import { Button } from 'react-bootstrap';
 
 const Lisence = (props) => {
 
+    const [existing_lisence, setExistingLisence] = useState(null)
     const [selected_lisence, setSelectedLisence] = useState(null)
     const [selected_lisence_details, setSelectedLisenceDetails] = useState('')
     const [lisences, setLisences] = useState([])
     const [comment, setComment] = useState('')
-    const [existing_lisence, setExistingLisence] = useState(null)
 
     useEffect(() => {
 
@@ -23,20 +23,20 @@ const Lisence = (props) => {
 
             try {
                 const res = await axios.post('/common/lisence/get-lisences', '', config)
+
                 console.log(res.data);
                 if(res.data.success) {
                     setLisences(res.data.data.lisences)
                     setExistingLisence(res.data.data.user_lisence)
                     
-                    if(existing_lisence) {
-                        setSelectedLisence(existing_lisence.id)
-                        setSelectedLisenceDetails(existing_lisence.details)
+                    if(res.data.data.user_lisence) {
+                        setSelectedLisence(res.data.data.user_lisence.id)
+                        setSelectedLisenceDetails(res.data.data.user_lisence.details)
+                        setComment(res.data.data.user_lisence.comment)
                     } else {
                         setSelectedLisence(res.data.data.lisences[0].id)
                         setSelectedLisenceDetails(res.data.data.lisences[0].details)
                     }
-                    console.log(res.data.data.user_lisence.id, "YYYYY");
-                    console.log(existing_lisence, "XXXXX");
                 }
             } catch(err) {
                 console.log(err);
