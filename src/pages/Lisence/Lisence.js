@@ -1,13 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Card, Col, FloatingLabel, Form, Row } from 'react-bootstrap'
 import { Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom'
 
 const Lisence = (props) => {
 
     const [existing_lisence, setExistingLisence] = useState(null)
     const [selected_lisence, setSelectedLisence] = useState(null)
-    const [selected_lisence_details, setSelectedLisenceDetails] = useState('')
+    const [selected_lisence_details, setSelectedLisenceDetails] = useState(null)
     const [lisences, setLisences] = useState([])
     const [comment, setComment] = useState('')
 
@@ -26,17 +28,23 @@ const Lisence = (props) => {
 
                 console.log(res.data);
                 if(res.data.success) {
-                    setLisences(res.data.data.lisences)
+                    // setLisences(res.data.data.lisences)
                     setExistingLisence(res.data.data.user_lisence)
                     
                     if(res.data.data.user_lisence) {
                         setSelectedLisence(res.data.data.user_lisence.id)
-                        setSelectedLisenceDetails(res.data.data.user_lisence.details)
+                        setSelectedLisenceDetails(prev => res.data.data.user_lisence.details)
                         setComment(res.data.data.user_lisence.comment)
+                        setLisences(res.data.data.lisences)
                     } else {
                         setSelectedLisence(res.data.data.lisences[0].id)
                         setSelectedLisenceDetails(res.data.data.lisences[0].details)
+                        setLisences(res.data.data.lisences)
                     }
+
+                    console.log(existing_lisence, "existing_lisence");
+                    console.log(selected_lisence, "selected_lisence");
+                    console.log(selected_lisence_details, "selected_lisence_details");
                 }
             } catch(err) {
                 console.log(err);
@@ -94,8 +102,14 @@ const Lisence = (props) => {
             <FloatingLabel controlId="floatingTextarea2" label="Comments" className="mb-4">
                 <Form.Control onChange={e => setComment(e.target.value)} as="textarea" placeholder="Leave a comment here" style={{ height: '100px' }} />
             </FloatingLabel>
-
-            <Button onClick={submitRequest} as={Col} variant="primary">Submit Request</Button>
+            
+            {
+                existing_lisence ? (
+                    <Link to="/invoice">Go to invoice</Link>
+                ) : (
+                    <Button onClick={submitRequest} as={Col} variant="primary">Submit Request</Button>
+                )
+            }
         </div>
     )
 }
