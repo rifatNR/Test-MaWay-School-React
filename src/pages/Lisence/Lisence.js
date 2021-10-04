@@ -28,18 +28,15 @@ const Lisence = (props) => {
 
                 console.log(res.data);
                 if(res.data.success) {
-                    // setLisences(res.data.data.lisences)
+                    setLisences(res.data.data.lisences)
+                    setSelectedLisence(res.data.data.lisences[0].id)
+                    setSelectedLisenceDetails(res.data.data.lisences[0].details)
                     setExistingLisence(res.data.data.user_lisence)
                     
                     if(res.data.data.user_lisence) {
-                        setSelectedLisence(res.data.data.user_lisence.id)
+                        setSelectedLisence(res.data.data.user_lisence.lisence_id)
                         setSelectedLisenceDetails(prev => res.data.data.user_lisence.details)
                         setComment(res.data.data.user_lisence.comment)
-                        setLisences(res.data.data.lisences)
-                    } else {
-                        setSelectedLisence(res.data.data.lisences[0].id)
-                        setSelectedLisenceDetails(res.data.data.lisences[0].details)
-                        setLisences(res.data.data.lisences)
                     }
 
                     console.log(existing_lisence, "existing_lisence");
@@ -99,9 +96,19 @@ const Lisence = (props) => {
                 </Card.Body>
             </Card>
 
-            <FloatingLabel controlId="floatingTextarea2" label="Comments" className="mb-4">
-                <Form.Control onChange={e => setComment(e.target.value)} as="textarea" placeholder="Leave a comment here" style={{ height: '100px' }} />
-            </FloatingLabel>
+            {
+                existing_lisence ? (
+                    <Card className="mb-4">
+                        <Card.Body>
+                            {existing_lisence.comment}
+                        </Card.Body>
+                    </Card>
+                ) : (
+                    <FloatingLabel controlId="floatingTextarea2" label="Comments" className="mb-4">
+                        <Form.Control onChange={e => setComment(e.target.value)} as="textarea" placeholder="Leave a comment here" style={{ height: '100px' }} />
+                    </FloatingLabel>
+                )
+            }
             
             {
                 existing_lisence ? (
