@@ -78,7 +78,10 @@ const Lisence = (props) => {
     
     return (
         <div>
-            <h1 className="text-center">Lisences</h1>
+            
+        return () => {
+            
+        }
 
             <Row xs={3} className="g-4 mb-4">
             {lisences.map((item) => (
