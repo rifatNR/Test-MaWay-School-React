@@ -29,7 +29,9 @@ const Lisence = (props) => {
                     setLisences(res.data.data.lisences)
                     setExistingLisence(res.data.data.user_lisence)
                     
-                    if(res.data.data.user_lisence) {
+                    
+                    
+                    if(res.data.data.user_lisence != null) {
                         setSelectedLisence(res.data.data.user_lisence.id)
                         setSelectedLisenceDetails(res.data.data.user_lisence.details)
                         setComment(res.data.data.user_lisence.comment)
