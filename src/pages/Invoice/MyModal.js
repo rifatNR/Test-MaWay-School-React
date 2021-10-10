@@ -1,12 +1,39 @@
+import axios from 'axios'
 import React, { useRef, useState } from 'react'
 import { Badge, Card, Col, Dropdown, ListGroup, Row, FloatingLabel, Form } from 'react-bootstrap'
+import Button from 'react-bootstrap/Button';
 
 
 const MyModal = (props) => {
 
     const [comment, setComment] = useState('')
+    const [image, setImage] = useState(null)
 
     const fileInputRef = useRef(null)
+
+    const onImageChange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            let img = e.target.files[0];
+            setImage(URL.createObjectURL(img))
+        }
+        console.log(image);
+    }
+
+    const pay = async () => {
+        const config = {headers: {'Content-Type': 'application/json','role': 'school'}}
+        try {
+            const data = {
+                "id": props.id,
+                "payment_type": "manual",
+                "payment_details": comment,
+                "attachment": image
+            }
+            const res = await axios.post('/common/invoice/pay', data, config)
+            console.log(res.data);
+        } catch(err) {
+            console.log(err);
+        }
+    }
     
     return (
         <div>
@@ -20,7 +47,7 @@ const MyModal = (props) => {
                             </Card.Title>
 
                             <Card>
-                                <input type="file" ref={fileInputRef} style={{display: 'none'}} />
+                                <input type="file" ref={fileInputRef} onChange={onImageChange} style={{display: 'none'}} />
                                 <Card onClick={() => fileInputRef.current.click()} border="primary" className="p-3">
                                     Upload Image
                                 </Card>
@@ -28,6 +55,8 @@ const MyModal = (props) => {
                                     <Form.Control onChange={e => setComment(e.target.value)} as="textarea" placeholder="Leave a comment here" style={{ height: '100px' }} />
                                 </FloatingLabel>
                             </Card>
+
+                            <Button onClick={pay} variant="primary" size="lg">Submit</Button>
                             
                         </Card.Body>
                     </Card>

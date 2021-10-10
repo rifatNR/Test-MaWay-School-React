@@ -12,10 +12,7 @@ const Invoice = (props) => {
     
     const [invoice, setInvoice] = useState(null)
     const [curr_status_level, setStatusLevel] = useState(0)
-    const [modal_show, setModalShow] = useState(true)
-
-    const [payment_details, setPaymentDetails] = useState('')
-    const [attachment, setAttachment] = useState(null)
+    const [modal_show, setModalShow] = useState(false)
 
     useEffect(() => {
         
@@ -59,28 +56,10 @@ const Invoice = (props) => {
             }
         }
     }, [])
-
-    const pay = async () => {
-        const config = {headers: {'Content-Type': 'application/json','role': 'school'}}
-        try {
-            const data = {
-                "id": invoice.id,
-                "payment_type": "manual",
-                "payment_details": payment_details,
-                "attachment": attachment
-            }
-            const res = await axios.post('/common/invoice/get-lisence-invoice', data, config)
-            console.log(res.data);
-            setInvoice(res.data.data)
-        } catch(err) {
-            console.log(err);
-        }
-    }
     
     return (
         <div>
             <h4 className="text-center" >Invoice ID: {invoice && invoice.invoice_id}</h4>
-
 
             <Card className="mb-5" >
                 <Card.Body>
@@ -162,7 +141,7 @@ const Invoice = (props) => {
                 <Button onClick={() => setModalShow(!modal_show)} variant="primary" size="lg">Pay</Button>
             </div>)}
 
-            <MyModal show={modal_show} setModalShow={setModalShow}/>
+            <MyModal show={modal_show} setModalShow={setModalShow} id={invoice && invoice.id}/>
             
         </div>
     )
