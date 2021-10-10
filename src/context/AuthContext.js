@@ -30,13 +30,7 @@ const AuthContextProvider = (props) => {
     }
 
     const Login = async (formData) => {
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'role': 'school'
-            }
-        }
-
+        const config = {headers: {'Content-Type': 'application/json','role': 'school'}}
         try {
             const res = await axios.post('/auth/login', formData, config)
             console.log(res.data);

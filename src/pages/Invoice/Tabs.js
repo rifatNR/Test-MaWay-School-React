@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Card, Col, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
-const Invoice = (props) => {
+const Tabs = (props) => {
 
     const [active, setActive] = useState(props.section)
     
@@ -38,4 +38,4 @@ const Invoice = (props) => {
     )
 }
 
-export default Invoice
+export default Tabs

@@ -16,13 +16,7 @@ const Lisence = (props) => {
     useEffect(() => {
 
         const getLisences = async () => {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'role': 'school'
-                }
-            }
-
+            const config = {headers: {'Content-Type': 'application/json','role': 'school'}}
             try {
                 const res = await axios.post('/common/lisence/get-lisences', '', config)
 
@@ -53,13 +47,7 @@ const Lisence = (props) => {
     }, [])
 
     const submitRequest = async () => {
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'role': 'school'
-            }
-        }
-
+        const config = {headers: {'Content-Type': 'application/json','role': 'school'}}
         const data = {
             "lisence_id": selected_lisence,
             "comment": comment
@@ -78,11 +66,6 @@ const Lisence = (props) => {
     
     return (
         <div>
-            
-        return () => {
-            
-        }
-
             <Row xs={3} className="g-4 mb-4">
             {lisences.map((item) => (
                 <Col key={item.id} onClick={() => {setSelectedLisence(item.id); setSelectedLisenceDetails(item.details)}}>

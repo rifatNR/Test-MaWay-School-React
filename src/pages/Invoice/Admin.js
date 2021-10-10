@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Tabs from './Tabs'
 import { Card, Col, Dropdown, Row } from 'react-bootstrap'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 const Admin = () => {
 
@@ -10,14 +11,8 @@ const Admin = () => {
     
     useEffect(() => {
         
-        const getInvoice = async () => {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'role': 'school'
-                }
-            }
-
+        const getInvoiceLists = async () => {
+            const config = {headers: {'Content-Type': 'application/json','role': 'school'}}
             try {
                 const data = {
                     "invoice_type": "admin",
@@ -34,7 +29,7 @@ const Admin = () => {
             }
         }
 
-        getInvoice();
+        getInvoiceLists();
         
     }, [filter])
     
@@ -56,6 +51,7 @@ const Admin = () => {
             </div>
 
             { items.map(item => <Card key={item.id} className="mb-2" >
+                <Link to={{ pathname: '/invoice', state: { id: item.id} }}>
                 <Card.Body>
                     <Card.Title>
                         <Row>
@@ -63,13 +59,14 @@ const Admin = () => {
                                 {item.lisence_title}
                                 <br/><small>{item.invoice_created_at}</small>
                             </Col>
-                            <Col xs lg="2">
+                            <Col xs="3" lg="2">
                                 DKK {item.price}
                                 <br/><small>{item.status}</small>
                             </Col>
                         </Row>
                     </Card.Title>
                 </Card.Body>
+                </Link>
             </Card>)}
         </div>
     )
