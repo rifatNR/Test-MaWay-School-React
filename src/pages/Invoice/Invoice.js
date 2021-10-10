@@ -12,7 +12,7 @@ const Invoice = (props) => {
     
     const [invoice, setInvoice] = useState(null)
     const [curr_status_level, setStatusLevel] = useState(0)
-    const [modal_show, setModalShow] = useState(false)
+    const [modal_show, setModalShow] = useState(true)
 
     const [payment_details, setPaymentDetails] = useState('')
     const [attachment, setAttachment] = useState(null)
