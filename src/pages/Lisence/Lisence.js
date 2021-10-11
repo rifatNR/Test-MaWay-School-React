@@ -2,7 +2,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Card, Col, FloatingLabel, Form, Row } from 'react-bootstrap'
-import { Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
 const Lisence = (props) => {
@@ -25,12 +25,12 @@ const Lisence = (props) => {
                     setLisences(res.data.data.lisences)
                     setSelectedLisence(res.data.data.lisences[0].id)
                     setSelectedLisenceDetails(res.data.data.lisences[0].details)
-                    setExistingLisence(res.data.data.user_lisence)
+                    setExistingLisence(res.data.data.existing_lisence)
                     
-                    if(res.data.data.user_lisence) {
-                        setSelectedLisence(res.data.data.user_lisence.lisence_id)
-                        setSelectedLisenceDetails(prev => res.data.data.user_lisence.details)
-                        setComment(res.data.data.user_lisence.comment)
+                    if(res.data.data.existing_lisence) {
+                        setSelectedLisence(res.data.data.existing_lisence.lisence_id)
+                        setSelectedLisenceDetails(prev => res.data.data.existing_lisence.details)
+                        setComment(res.data.data.existing_lisence.comment)
                     }
 
                     console.log(existing_lisence, "existing_lisence");
@@ -95,10 +95,9 @@ const Lisence = (props) => {
                     </FloatingLabel>
                 )
             }
-            
             {
                 existing_lisence ? (
-                    <Link to="/invoice">Go to invoice</Link>
+                    <Link to={{ pathname: '/invoice', state: { id: existing_lisence.id} }}>Go to invoice</Link>
                 ) : (
                     <Button onClick={submitRequest} as={Col} variant="primary">Submit Request</Button>
                 )

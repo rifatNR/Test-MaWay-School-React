@@ -11,10 +11,29 @@ const MyModal = (props) => {
 
     const fileInputRef = useRef(null)
 
+    const getBase64 = (file, cb) => {
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+            cb(reader.result)
+        };
+        reader.onerror = function (error) {
+            console.log('Error: ', error);
+        };
+    }
+    
     const onImageChange = (e) => {
         if (e.target.files && e.target.files[0]) {
             let img = e.target.files[0];
-            setImage(URL.createObjectURL(img))
+
+            let img64 = ''
+            getBase64(img, (result) => {
+                img64 = result;
+                console.log(img64);
+                setImage(img64)
+            });
+            
+            // setImage(URL.createObjectURL(img))
         }
         console.log(image);
     }
@@ -30,6 +49,10 @@ const MyModal = (props) => {
             }
             const res = await axios.post('/common/invoice/pay', data, config)
             console.log(res.data);
+            if(res.data.success) {
+                props.history.push('/dashboard')
+            }
+            props.setModalShow(false)
         } catch(err) {
             console.log(err);
         }

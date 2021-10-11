@@ -23,7 +23,7 @@ const Dashboard = () => {
                     </Link>
                 </Col>
                 <Col>
-                    <Link to='/invoices/admin'>
+                    <Link to='/invoice-list'>
                         <Card border={'primary'}>
                             <Card.Body><Card.Title>Invoices</Card.Title></Card.Body>
                         </Card>

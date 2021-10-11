@@ -4,8 +4,9 @@ import { Card, Col, Dropdown, Row } from 'react-bootstrap'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 
-const Admin = () => {
+const InvoiceList = () => {
 
+    const [active, setActive] = useState('admin')
     const [items, setItems] = useState([])
     const [filter, setFilter] = useState('history')
     
@@ -15,7 +16,7 @@ const Admin = () => {
             const config = {headers: {'Content-Type': 'application/json','role': 'school'}}
             try {
                 const data = {
-                    "invoice_type": "admin",
+                    "invoice_type": `${active}`,
                     "filter_type": `${filter}`
                 }
                 const res = await axios.post('/common/invoice/index', data, config)
@@ -35,7 +36,25 @@ const Admin = () => {
     
     return (
         <div>
-            <Tabs section="admin" />
+            <h1 className="text-center">Invoice</h1>
+        
+            <Row xs={3} className="g-4 mb-4">
+                <Col>
+                    <Card onClick={() => setActive('admin')} border={active === 'admin' && 'warning'}>
+                        <Card.Body><Card.Title>Admin</Card.Title></Card.Body>
+                    </Card>
+                </Col>
+                <Col>
+                    <Card onClick={() => setActive('student')} border={active === 'student' && 'warning'}>
+                        <Card.Body><Card.Title>Student</Card.Title></Card.Body>
+                    </Card>
+                </Col>
+                <Col>
+                    <Card onClick={() => setActive('instructor')} border={active === 'instructor' && 'warning'}>
+                        <Card.Body><Card.Title>Instructor</Card.Title></Card.Body>
+                    </Card>
+                </Col>
+            </Row>
 
             <div className="mb-4 text-right w-100">
                 <Dropdown>
@@ -72,4 +91,4 @@ const Admin = () => {
     )
 }
 
-export default Admin
+export default InvoiceList
